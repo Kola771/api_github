@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulaire</title>
+    <style>
+        section {
+            display: flex;
+            flex-wrap: wrap;
+            border: 2px solid rgb(102, 100, 100);
+            border-radius: 1em;
+            padding: .5em;
+            margin-block: 20px;
+            text-align: center;
+        }
+        section>a,
+        section>img,
+        section>p {
+            flex-basis: 100%;
+        }
+        
+        section>img {
+            width: 100%;
+        }
+
+        .container {
+            margin: 0 auto;
+            max-width: 1000px;
+            border: 2px solid rgb(102, 100, 100);
+            border-radius: 2em;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1em;
+        }
+
+        .container>section {
+            flex-basis: 30%;
+        }
+
+        .container>div {
+            flex-basis: 100%;
+            text-align: center;
+        }
+
+        .container>p{
+            flex-basis: 100%;
+            text-align: center;
+        }
+
+        .container>div > form{
+            padding: .5em;
+        }
+
+        .container>div > form input,
+        .container>div > form button{
+            padding: .5em;
+        }
+    </style>
+</head>
+<body>
+  
+    <div class="container">
+        <div>
+            <form action="#" method="get">
+                <input
+                    type="text"
+                    name="username"
+                    placeholder="search Github users"
+                />
+                <button type="submit">Chercher</button>
+            </form>
+        </div>
+        <p></p>
+    </div>
+    <script>
+        let par = document.querySelector(".container>p");
+        document.querySelector('form').addEventListener('submit', e => {
+    e.preventDefault();
+    const username = document.querySelector('input[name="username"]').value;
+    
+    let url = "https://api.github.com/users";
+    let users = fetch(url)
+    .then(res => res.json())
+    .then(data =>
+    data.forEach(el => {
+    if(el.login == username) {
+        let demo = document.createElement("section")
+        let container = document.querySelector(".container")
+        let p0 = document.createElement("p")
+        let img = document.createElement("img")
+        let p2 = document.createElement("p")
+        let p1 = document.createElement("p")
+        let a = document.createElement("a")
+        a.setAttribute("href", "#")
+
+        let section = document.querySelector("section:last-child");
+            if (section) {
+                document.querySelector("div.container").removeChild(section);
+            }
+             par.style = 'display:none'
+            
+        document.body.append(demo)
+        container.append(demo)
+        p1.innerHTML = `Id : ${el.id}`
+        p0.innerHTML = `Login : ${el.login}`
+        p2.innerHTML = `${el.public_repos} repositoires`
+        demo.innerHTML = `
+        <img src="./solo3.jpg" alt="#">
+        `
+        a.innerHTML = "Contact"
+        demo.append(p1)
+        demo.append(p0)
+        demo.append(p2)
+        demo.append(a)
+
+} else {
+    par.innerHTML = "Cet utilsateur n'existe pas"
+}
+}
+));
+});
+
+// let url = "api-github.json"
+// let user= fetch(url)
+// .then(res => res.json())
+// .then(data => console.log(data))
+    </script>
+</body>
+</html>
